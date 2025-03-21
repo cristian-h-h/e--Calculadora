@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es-mx">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Calculadora</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="result" value="0" readonly>
+        <div class="buttons">
+            <!-- Botones numéricos -->
+            <button onclick="appendValue('7')">7</button>
+            <button onclick="appendValue('8')">8</button>
+            <button onclick="appendValue('9')">9</button>
+            <button class="operator" onclick="appendValue('+')">+</button>
+            <button onclick="appendValue('6')">6</button>
+            <button onclick="appendValue('5')">5</button>
+            <button onclick="appendValue('4')">4</button>
+            <button class="operator" onclick="appendValue('-')">-</button>
+            <button onclick="appendValue('3')">3</button>
+            <button onclick="appendValue('2')">2</button>
+            <button onclick="appendValue('1')">1</button>
+            <button class="operator" onclick="appendValue('*')">X</button>
+            <button onclick="appendValue('0')">0</button>
+            <button class="operator equals" onclick="calculateResult()">=</button>
+            <button class="operator" onclick="appendValue('/')">/</button>
+            <button class="clear" onclick="clearResult()">C</button>
+
+            <!-- Botones para horas, minutos, segundos y punto decimal -->
+            <button onclick="appendValue('h')">H</button>
+            <button onclick="appendValue('m')">M</button>
+            <button onclick="appendValue('s')">S</button>
+            <button onclick="appendValue('.')">.</button>
+
+            <!-- Botón para deshacer -->
+            <button class="operator" onclick="undoLastCharacter()">←</button>
+        </div>
+    </div>
+    <script src="operadores.js"></script>
+</body>
+</html>
