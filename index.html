@@ -24,18 +24,28 @@
             <button onclick="appendValue('1')">1</button>
             <button class="operator" onclick="appendValue('*')">X</button>
             <button onclick="appendValue('0')">0</button>
-            <button class="operator equals" onclick="calculateResult()">=</button>
+            <button onclick="appendValue('.')">.</button>
+            <button class="operator" onclick="appendValue('%')">%</button>
             <button class="operator" onclick="appendValue('/')">/</button>
+            <button class="operator equals" onclick="calculateResult()">=</button>
+
+
+                            <!-- Nuevos botones -->
+            
+            <button class="operator" onclick="calculateSquareRoot()">√</button>
+            <button class="operator" onclick="appendValue('**')">^</button>
+                        <!-- Botón para deshacer -->
+            <button class="operator" onclick="undoLastCharacter()">←</button>
             <button class="clear" onclick="clearResult()">C</button>
 
             <!-- Botones para horas, minutos, segundos y punto decimal -->
             <button onclick="appendValue('h')">H</button>
             <button onclick="appendValue('m')">M</button>
             <button onclick="appendValue('s')">S</button>
-            <button onclick="appendValue('.')">.</button>
+            
+            
+            </div>
 
-            <!-- Botón para deshacer -->
-            <button class="operator" onclick="undoLastCharacter()">←</button>
         </div>
     </div>
     <script src="operadores.js"></script>

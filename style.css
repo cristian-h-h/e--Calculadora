@@ -1,4 +1,4 @@
-body{
+body {
     background-color: #d3d3d3;
     display: flex;
     justify-content: center;
@@ -6,9 +6,9 @@ body{
     height: 100vh;
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background-image: url(images.jpeg); /* agrega imagen de fondo*/
-    background-size: cover; /*ajusta la imagen a la pantalla*/
-    background-position: center; /* centra la imagen*/
+    background-image: url(images.jpeg); /* Agrega imagen de fondo */
+    background-size: cover; /* Ajusta la imagen a la pantalla */
+    background-position: center; /* Centra la imagen */
 }
 
 body::before {
@@ -18,7 +18,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('images/fondo.jpg');
+    background-image: url('images/fondo.jpg'); /* Asegúrate de que esta imagen exista */
     background-size: cover;
     background-position: center;
     filter: blur(5px); /* Aplica un desenfoque */
@@ -27,68 +27,84 @@ body::before {
 
 .calculator {
     background-color: rgba(240, 240, 240, 0.9); /* Fondo semitransparente */
-    padding: 20px;
+    padding: 15px; /* Reducir el padding */
     border-radius: 10px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 255px; /* Reducir el ancho en un 15% (300px * 0.85) */
     position: absolute; /* Permite mover la calculadora */
     cursor: grab; /* Cambia el cursor al pasar sobre la calculadora */
 }
 
-.display{
-    margin-bottom: 20px;
+.display {
+    margin-bottom: 15px; /* Reducir el margen inferior */
 }
 
-#result{
+#result {
     width: 90%;
-    padding: 15px;
+    padding: 12px; /* Reducir el padding */
     border: none;
     border-radius: 10px;
     text-align: right;
-    font-size: 2em;
+    font-size: 1.7em; /* Reducir el tamaño de la fuente */
     color: #333;
     background-color: #e0e0e0;
     box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.buttons{
+.buttons {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas */
+    gap: 8px; /* Reducir el espacio entre botones */
 }
 
-button{
+/* Estilo para el botón "=" (última fila) */
+button.equals {
+    grid-column: span 4; /* Ocupa 4 columnas (todo el ancho) */
+    background-color: #19d654;
+    color: #fff;
+}
+
+button.equals:hover {
+    background-color: #17c04d; /* Cambia el color al pasar el mouse */
+}
+
+button {
     background-color: #fff;
     border: none;
-    padding: 20px;
-    font-size: 1.5em;
+    padding: 15px; /* Reducir el padding */
+    font-size: 1.2em; /* Reducir el tamaño de la fuente */
     color: #333;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s;
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-button.operator{
+button:hover {
+    background-color: #e60000;
+    color: #fff;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+/* Estilos para botones de operadores */
+button.operator {
     background-color: #333;
     color: #fff;
 }
 
-button.clear{
+button.operator:hover {
+    background-color: #555; /* Cambia el color al pasar el mouse */
+}
+
+/* Estilos para el botón de limpiar (C) */
+button.clear {
     background-color: #e60000;
     color: #fff;
 }
 
-button:hover{
-    background-color: #e60000;
-    color: #fff;
-}
-
-button:active{
-    transform: scale(0.98);
-}
-
-button.equals {
-    background-color: #19d654;
-    color: #fff;
+button.clear:hover {
+    background-color: #cc0000; /* Cambia el color al pasar el mouse */
 }

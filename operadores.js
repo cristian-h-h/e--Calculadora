@@ -4,7 +4,7 @@ function appendValue(value) {
     const lastChar = resultField.value.slice(-1); // Obtiene el último carácter
 
     // Evita agregar operadores consecutivos
-    if (['+', '-', '*', '/'].includes(value) && ['+', '-', '*', '/'].includes(lastChar)) {
+    if (['+', '-', '*', '/', '^', '%'].includes(value) && ['+', '-', '*', '/', '^', '%'].includes(lastChar)) {
         return;
     }
 
@@ -13,7 +13,7 @@ function appendValue(value) {
         resultField.value = value;
     } else if (value === '.') {
         // Evita agregar más de un punto decimal por número
-        const parts = resultField.value.split(/[\+\-\*\/]/); // Divide la expresión en partes
+        const parts = resultField.value.split(/[\+\-\*\/\^\%]/); // Divide la expresión en partes
         const lastPart = parts[parts.length - 1]; // Obtiene la última parte (número actual)
         if (!lastPart.includes('.')) { // Si no tiene un punto decimal, agrega uno
             resultField.value += value;
@@ -21,6 +21,9 @@ function appendValue(value) {
     } else {
         resultField.value += value; // Agrega el valor al campo
     }
+
+    // Reemplaza '**' por '^' en el visor (solo visualmente)
+    resultField.value = resultField.value.replace(/\*\*/g, '^');
 }
 
 // Función para limpiar la pantalla
@@ -34,6 +37,19 @@ function undoLastCharacter() {
     resultField.value = resultField.value.slice(0, -1) || '0'; // Borra el último carácter
 }
 
+// Función para calcular la raíz cuadrada
+function calculateSquareRoot() {
+    const resultField = document.getElementById('result');
+    const value = parseFloat(resultField.value);
+
+    if (!isNaN(value) && value >= 0) {
+        const result = Math.sqrt(value);
+        resultField.value = result;
+    } else {
+        resultField.value = 'Error';
+    }
+}
+
 // Función para calcular el resultado
 function calculateResult() {
     const resultField = document.getElementById('result');
@@ -41,35 +57,22 @@ function calculateResult() {
         // Reemplaza 'x' por '*' para la multiplicación
         let expression = resultField.value.replace(/x/g, '*');
 
+        // Reemplaza '^' por '**' para la potencia (internamente)
+        expression = expression.replace(/\^/g, '**');
+
+        // Maneja el operador '%'
+        expression = expression.replace(/(\d+)\%/g, (match, p1) => {
+            return `${parseFloat(p1) / 100}`; // Convierte el porcentaje a decimal
+        });
+
         // Verifica si la expresión contiene horas, minutos o segundos
         const hasTimeFormat = /[hms]/.test(expression);
 
         if (hasTimeFormat) {
             // Convierte horas, minutos y segundos a segundos
-            expression = expression.replace(/(\d+)h\s*(\d+)m\s*(\d+)s/g, (match, p1, p2, p3) => {
-                const hours = parseFloat(p1) || 0; // Convierte horas a segundos
-                const minutes = parseFloat(p2) || 0; // Convierte minutos a segundos
-                const seconds = parseFloat(p3) || 0; // Mantiene los segundos
-                return `${hours * 3600 + minutes * 60 + seconds}`; // Suma horas, minutos y segundos
-            });
-
-            expression = expression.replace(/(\d+)h\s*(\d+)m/g, (match, p1, p2) => {
-                const hours = parseFloat(p1) || 0; // Convierte horas a segundos
-                const minutes = parseFloat(p2) || 0; // Convierte minutos a segundos
-                return `${hours * 3600 + minutes * 60}`; // Suma horas y minutos
-            });
-
-            expression = expression.replace(/(\d+)h/g, (match, p1) => {
-                return `${parseFloat(p1) * 3600}`; // Convierte horas a segundos
-            });
-
-            expression = expression.replace(/(\d+)m/g, (match, p1) => {
-                return `${parseFloat(p1) * 60}`; // Convierte minutos a segundos
-            });
-
-            expression = expression.replace(/(\d+)s/g, (match, p1) => {
-                return `${parseFloat(p1)}`; // Mantiene los segundos
-            });
+            expression = expression.replace(/(\d+)h/g, (match, p1) => `${parseFloat(p1) * 3600}`)
+                                  .replace(/(\d+)m/g, (match, p1) => `${parseFloat(p1) * 60}`)
+                                  .replace(/(\d+)s/g, (match, p1) => `${parseFloat(p1)}`);
 
             // Calcula el resultado en segundos
             const totalSeconds = eval(expression);
@@ -99,13 +102,8 @@ function calculateResult() {
 document.addEventListener('keydown', (event) => {
     const key = event.key; // Obtiene la tecla presionada
 
-    // Si la tecla es un número (0-9) o un punto (.)
-    if (/[0-9.]/.test(key)) {
-        appendValue(key);
-    }
-
-    // Si la tecla es un operador (+, -, *, /)
-    else if (['+', '-', '*', '/'].includes(key)) {
+    // Si la tecla es un número (0-9), un punto (.) o un operador (+, -, *, /, ^, %)
+    if (/[0-9.\+\-\*\/\^\%]/.test(key)) {
         appendValue(key);
     }
 
